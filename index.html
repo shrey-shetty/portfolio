@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shreya Shetty · Data Scientist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --hero-bg:    linear-gradient(135deg, #2a1558 0%, #4a2080 35%, #7b35a0 65%, #9b4ab8 100%);
+    --section-bg: #120a2e;
+    --card-bg:    rgba(255,255,255,0.07);
+    --card-hover: rgba(255,255,255,0.11);
+    --border:     rgba(255,255,255,0.12);
+    --text:       #f0eefa;
+    --muted:      rgba(240,238,250,0.55);
+    --accent:     #c084fc;
+    --pink:       #e879f9;
+    --gold:       #f5c84a;
+    --sans:       'Plus Jakarta Sans', sans-serif;
+    --radius:     16px;
+    --radius-sm:  10px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--sans); background: var(--section-bg); color: var(--text); font-size: 16px; line-height: 1.6; overflow-x: hidden; position: relative; }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--section-bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+  #dots { position: absolute; top: 0; left: 0; z-index: 0; pointer-events: none; width: 100%; }
+  nav, main, footer { position: relative; z-index: 1; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 3rem;
+    background: rgba(26,10,52,0.85);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.02em; background: linear-gradient(90deg, #c084fc, #e879f9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 0.82rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--text); }
+  .nav-cta { font-size: 0.8rem; font-weight: 600; color: var(--text); background: linear-gradient(90deg, var(--accent), var(--pink)); padding: 0.45rem 1.2rem; border-radius: 50px; text-decoration: none; transition: opacity 0.2s; display: flex; align-items: center; gap: 6px; }
+  .nav-cta:hover { opacity: 0.88; }
+
+  .hero { min-height: 100vh; background: var(--hero-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 100px 2rem 5rem; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(192,132,252,0.18) 0%, transparent 70%); pointer-events: none; }
+  .hero-big-name { font-size: clamp(2.8rem, 8vw, 6.5rem); font-weight: 800; letter-spacing: 0.05em; color: rgba(255,255,255,0.07); line-height: 1; margin-bottom: -0.3rem; text-transform: uppercase; opacity: 0; animation: fadeUp 0.6s ease 0.1s forwards; user-select: none; position: relative; z-index: 0; }
+  .hero-role { font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 800; letter-spacing: -0.02em; color: var(--text); line-height: 1.1; margin-bottom: 1.8rem; opacity: 0; animation: fadeUp 0.6s ease 0.2s forwards; }
+  .hero-badges { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.8rem; opacity: 0; animation: fadeUp 0.6s ease 0.3s forwards; }
+  .badge { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.18); border-radius: 50px; padding: 0.4rem 1rem; font-size: 0.82rem; font-weight: 500; color: var(--text); }
+  .hero-bio { max-width: 600px; font-size: 1rem; color: rgba(240,238,250,0.82); line-height: 1.75; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.6s ease 0.4s forwards; }
+  .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem; opacity: 0; animation: fadeUp 0.6s ease 0.5s forwards; }
+  .btn-primary { display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 700; padding: 0.85rem 2rem; background: linear-gradient(90deg, var(--accent), var(--pink)); color: #fff; text-decoration: none; border: none; cursor: pointer; border-radius: 50px; transition: transform 0.2s, opacity 0.2s; box-shadow: 0 4px 24px rgba(208,111,250,0.35); }
+  .btn-primary:hover { transform: translateY(-2px); opacity: 0.92; }
+  .btn-secondary { display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 600; padding: 0.85rem 2rem; background: rgba(255,255,255,0.12); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.22); color: var(--text); text-decoration: none; cursor: pointer; border-radius: 50px; transition: background 0.2s, transform 0.2s; }
+  .btn-secondary:hover { background: rgba(255,255,255,0.18); transform: translateY(-2px); }
+  .hero-stats-row { display: flex; gap: 3rem; justify-content: center; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.6s ease 0.6s forwards; }
+  .hero-stat { text-align: center; }
+  .hero-stat-num { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.03em; background: linear-gradient(90deg, #f5c84a, #f0a040); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+  .hero-stat-label { font-size: 0.7rem; font-weight: 600; color: var(--muted); margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.09em; }
+  .scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: 0; animation: fadeUp 0.6s ease 1s forwards; }
+  .scroll-hint span { font-size: 0.7rem; color: rgba(240,238,250,0.5); letter-spacing: 0.12em; text-transform: uppercase; }
+  .scroll-mouse { width: 22px; height: 34px; border: 2px solid rgba(255,255,255,0.28); border-radius: 12px; position: relative; }
+  .scroll-mouse::after { content: ''; position: absolute; top: 5px; left: 50%; transform: translateX(-50%); width: 3px; height: 6px; background: rgba(255,255,255,0.55); border-radius: 2px; animation: scrollDot 1.5s ease infinite; }
+  @keyframes scrollDot { 0%,100%{opacity:1;transform:translateX(-50%) translateY(0)} 50%{opacity:0;transform:translateX(-50%) translateY(8px)} }
+
+  main { padding: 0; }
+  .section { padding: 5rem 2rem; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label { display: inline-flex; align-items: center; gap: 8px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+  .section-label::before { content: ''; display: inline-block; width: 20px; height: 2px; background: linear-gradient(90deg, var(--accent), var(--pink)); border-radius: 1px; }
+  .section-title { font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 2.5rem; line-height: 1.15; }
+  .section-title span { background: linear-gradient(90deg, var(--accent), var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .section-alt { background: rgba(15,32,68,0.6); }
+
+  .skills-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+  .skill-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; transition: background 0.2s, transform 0.2s, border-color 0.2s; }
+  .skill-card:hover { background: var(--card-hover); transform: translateY(-3px); border-color: rgba(208,111,250,0.3); }
+  .skill-cat { font-size: 0.67rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 6px; }
+  .skill-cat::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; display: inline-block; }
+  .skill-items { font-size: 0.85rem; color: var(--muted); line-height: 1.9; }
+
+  .proj-gh-link { display: inline-flex; align-items: center; gap: 5px; font-size: 0.72rem; font-weight: 600; color: var(--muted); text-decoration: none; border: 1px solid var(--border); border-radius: 50px; padding: 4px 10px; transition: all 0.2s; white-space: nowrap; }
+  .proj-gh-link:hover { color: var(--accent); border-color: var(--accent); background: rgba(79,158,248,0.08); }
+
+    .filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .filter-btn { font-size: 0.75rem; font-weight: 600; padding: 0.4rem 1rem; border: 1px solid var(--border); color: var(--muted); background: transparent; cursor: pointer; border-radius: 50px; font-family: var(--sans); transition: all 0.18s; }
+  .filter-btn:hover { border-color: var(--accent); color: var(--text); }
+  .filter-btn.active { background: linear-gradient(90deg, var(--accent), var(--pink)); color: #fff; border-color: transparent; }
+
+  .projects-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.25rem; }
+  .proj-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; cursor: pointer; transition: background 0.2s, transform 0.2s, border-color 0.2s; position: relative; overflow: hidden; }
+  .proj-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--pink)); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
+  .proj-card:hover, .proj-card.open { background: var(--card-hover); transform: translateY(-4px); border-color: rgba(208,111,250,0.3); }
+  .proj-card:hover::before, .proj-card.open::before { transform: scaleX(1); }
+  .proj-card.filtered-out { display: none; }
+  .proj-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+  .proj-index { font-size: 0.7rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; }
+  .proj-arrow { font-size: 1rem; color: var(--muted); transition: transform 0.25s, color 0.2s; }
+  .proj-card:hover .proj-arrow, .proj-card.open .proj-arrow { color: var(--accent); }
+  .proj-card.open .proj-arrow { transform: rotate(45deg); }
+  .proj-name { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; line-height: 1.3; }
+  .proj-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.7; margin-bottom: 1rem; }
+  .proj-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .proj-tag { font-size: 0.64rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 10px; border: 1px solid var(--border); color: var(--muted); border-radius: 50px; cursor: pointer; transition: all 0.15s; }
+  .proj-tag:hover { border-color: var(--accent); color: var(--accent); }
+  .proj-detail { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, margin-top 0.25s; margin-top: 0; }
+  .proj-card.open .proj-detail { max-height: 200px; margin-top: 1rem; }
+  .proj-detail-inner { border-top: 1px solid var(--border); padding-top: 1rem; }
+  .proj-detail-label { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+  .proj-detail-text { font-size: 0.82rem; color: var(--muted); line-height: 1.75; }
+
+  .timeline { display: flex; flex-direction: column; gap: 1rem; }
+  .timeline-item { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem 2rem; display: grid; grid-template-columns: 12px 1fr; gap: 0 1.5rem; align-items: start; transition: background 0.2s, transform 0.2s, border-color 0.2s; }
+  .timeline-item:hover { background: var(--card-hover); transform: translateX(4px); border-color: rgba(208,111,250,0.3); }
+  .timeline-dot { width: 12px; height: 12px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+  .dot-work { background: linear-gradient(135deg, var(--accent), var(--pink)); }
+  .dot-edu  { background: linear-gradient(135deg, var(--gold), #f0a040); }
+  .tl-type { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .tl-type-work { color: var(--accent); } .tl-type-edu { color: var(--gold); }
+  .tl-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.2rem; }
+  .tl-role { font-size: 1rem; font-weight: 700; }
+  .tl-date { font-size: 0.72rem; color: var(--muted); }
+  .tl-org { font-size: 0.85rem; font-weight: 600; color: var(--accent); margin-bottom: 0.15rem; }
+  .tl-loc { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.75rem; }
+  .tl-body { font-size: 0.82rem; color: var(--muted); line-height: 1.75; }
+
+  .certs-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+  .cert-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.25rem 1.5rem; transition: background 0.2s, transform 0.2s, border-color 0.2s; }
+  .cert-card:hover { background: var(--card-hover); transform: translateY(-3px); border-color: rgba(208,111,250,0.3); }
+  .cert-issuer { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+  .cert-name { font-size: 0.85rem; font-weight: 600; line-height: 1.4; margin-bottom: 0.3rem; }
+  .cert-date { font-size: 0.72rem; color: var(--muted); }
+
+  .pub-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 2.5rem; display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: start; transition: border-color 0.2s; }
+  .pub-card:hover { border-color: rgba(208,111,250,0.3); }
+  .pub-label { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+  .pub-title { font-size: 1.1rem; font-weight: 700; line-height: 1.35; margin-bottom: 0.75rem; }
+  .pub-body { font-size: 0.82rem; color: var(--muted); line-height: 1.8; }
+  .pub-meta { text-align: right; min-width: 90px; }
+  .pub-journal { font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 0.3rem; }
+  .pub-year { font-size: 0.74rem; color: var(--muted); }
+
+  .contact-wrap { background: linear-gradient(135deg, #2a1558 0%, #4a2080 50%, #7b35a0 100%); border-radius: 24px; padding: 3.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; border: 1px solid rgba(192,132,252,0.2); }
+  .contact-tagline { font-size: 1.6rem; font-weight: 800; line-height: 1.25; letter-spacing: -0.02em; margin-bottom: 1rem; }
+  .contact-tagline em { font-style: normal; background: linear-gradient(90deg, var(--accent), var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .contact-sub { font-size: 0.88rem; color: rgba(240,238,250,0.72); line-height: 1.8; margin-bottom: 2rem; }
+  .contact-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .contact-items { display: flex; flex-direction: column; gap: 1rem; justify-content: center; }
+  .contact-item { display: flex; align-items: center; gap: 1rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-sm); padding: 0.85rem 1.25rem; transition: background 0.2s; }
+  .contact-item:hover { background: rgba(255,255,255,0.13); }
+  .contact-icon { font-size: 1rem; flex-shrink: 0; }
+  .contact-lbl { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .contact-val { font-size: 0.88rem; font-weight: 500; }
+  .contact-val a { color: var(--text); text-decoration: none; transition: color 0.2s; }
+  .contact-val a:hover { color: var(--accent); }
+
+  footer { padding: 1.5rem 2rem; background: rgba(0,0,0,0.3); border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+  footer p { font-size: 0.72rem; color: var(--muted); }
+
+  /* ── profile photo ── */
+  .hero-avatar { width: 96px; height: 96px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.25); box-shadow: 0 0 0 6px rgba(79,158,248,0.2); object-fit: cover; margin-bottom: 1.2rem; opacity: 0; animation: fadeUp 0.6s ease 0.05s forwards; }
+
+  /* ── typing subtitle ── */
+  .hero-typing { font-size: 1.05rem; font-weight: 500; color: rgba(240,238,250,0.72); margin-bottom: 1.6rem; min-height: 1.6rem; opacity: 0; animation: fadeUp 0.6s ease 0.25s forwards; }
+  .hero-typing .typed { border-right: 2px solid var(--accent); padding-right: 3px; }
+
+  /* ── about strip ── */
+  .about-strip { background: rgba(255,255,255,0.025); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .about-inner { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem; display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
+  .about-cell { padding: 0 2rem; border-right: 1px solid var(--border); }
+  .about-cell:first-child { padding-left: 0; }
+  .about-cell:last-child { border-right: none; }
+  .about-cell-icon { font-size: 1.4rem; margin-bottom: 0.5rem; }
+  .about-cell-label { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
+  .about-cell-val { font-size: 0.88rem; font-weight: 500; color: var(--text); line-height: 1.5; }
+  .about-cell-sub { font-size: 0.76rem; color: var(--muted); margin-top: 0.1rem; }
+  @media (max-width: 900px) { .about-inner { grid-template-columns: 1fr 1fr; gap: 1.5rem; } .about-cell { border-right: none; padding: 0; } }
+  @media (max-width: 500px) { .about-inner { grid-template-columns: 1fr; } }
+
+  /* ── nav github button ── */
+  .nav-actions { display: flex; gap: 0.6rem; align-items: center; }
+  .nav-gh { font-size: 0.8rem; font-weight: 600; color: var(--muted); background: rgba(255,255,255,0.08); border: 1px solid var(--border); padding: 0.45rem 1rem; border-radius: 50px; text-decoration: none; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+  .nav-gh:hover { color: var(--text); border-color: var(--accent); background: rgba(255,255,255,0.12); }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; } .nav-links { display: none; }
+    .hero { padding: 90px 1.5rem 3rem; }
+    .section { padding: 3.5rem 1.5rem; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .certs-grid { grid-template-columns: 1fr 1fr; }
+    .pub-card { grid-template-columns: 1fr; gap: 1.5rem; } .pub-meta { text-align: left; }
+    .contact-wrap { grid-template-columns: 1fr; gap: 2rem; padding: 2rem; }
+    .timeline-item { grid-template-columns: 1fr; } .timeline-dot { display: none; }
+  }
+  @media (max-width: 600px) {
+    .skills-grid, .certs-grid { grid-template-columns: 1fr; }
+    .hero-stats-row { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+<canvas id="dots"></canvas>
+<nav>
+  <div class="nav-logo">Shreya Shetty</div>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="https://github.com/shrey-shetty" target="_blank" class="nav-gh">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      GitHub
+    </a>
+    <a href="https://linkedin.com/in/shrey-shetty" target="_blank" class="nav-cta">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      LinkedIn
+    </a>
+  </div>
+</nav>
+<main>
+
+<section class="hero" id="home">
+  <img class="hero-avatar" src="https://avatars.githubusercontent.com/u/85057063?v=4" alt="Shreya Shetty" />
+  <div class="hero-big-name">Shreya Shetty</div>
+  <div class="hero-role">Data Scientist</div>
+  <div class="hero-typing"><span class="typed" id="typed"></span></div>
+  <div class="hero-badges">
+    <span class="badge">📍 Open to all of Germany</span>
+    <span class="badge">🎓 SRH University Heidelberg</span>
+    <span class="badge">✅ Available now</span>
+  </div>
+  <p class="hero-bio">Master's student in Applied Data Science building AI systems, real-time pipelines, and analytics dashboards that turn raw data into clear decisions.</p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary">Get in touch</a>
+    <a href="#projects" class="btn-secondary">View projects</a>
+  </div>
+  <div class="hero-stats-row">
+    <div class="hero-stat"><div class="hero-stat-num">5+</div><div class="hero-stat-label">Projects</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">2</div><div class="hero-stat-label">Internships</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">1</div><div class="hero-stat-label">Publication</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">7+</div><div class="hero-stat-label">Certifications</div></div>
+  </div>
+  <div class="scroll-hint"><div class="scroll-mouse"></div><span>Scroll to explore</span></div>
+</section>
+
+<!-- ── ABOUT STRIP ── -->
+<div class="about-strip">
+  <div class="about-inner reveal">
+    <div class="about-cell">
+      <div class="about-cell-icon">🌍</div>
+      <div class="about-cell-label">Languages</div>
+      <div class="about-cell-val">English · German</div>
+      <div class="about-cell-sub">Hindi · Kannada</div>
+    </div>
+    <div class="about-cell">
+      <div class="about-cell-icon">📍</div>
+      <div class="about-cell-label">Based in</div>
+      <div class="about-cell-val">Heidelberg, Germany</div>
+      <div class="about-cell-sub">Originally from Mysore, India</div>
+    </div>
+    <div class="about-cell">
+      <div class="about-cell-icon">🎯</div>
+      <div class="about-cell-label">Focus areas</div>
+      <div class="about-cell-val">ML · AI Governance</div>
+      <div class="about-cell-sub">Real-time data · BI</div>
+    </div>
+    <div class="about-cell">
+      <div class="about-cell-icon">💻</div>
+      <div class="about-cell-label">On GitHub</div>
+      <div class="about-cell-val"><a href="https://github.com/shrey-shetty" target="_blank" style="color:var(--accent);text-decoration:none;">15 repositories</a></div>
+      <div class="about-cell-sub">github.com/shrey-shetty</div>
+    </div>
+  </div>
+</div>
+
+<section class="section section-alt" id="skills">
+  <div class="section-inner">
+    <div class="reveal"><div class="section-label">01 — Expertise</div><h2 class="section-title">Skills &amp; <span>tools</span></h2></div>
+    <div class="skills-grid reveal">
+      <div class="skill-card"><div class="skill-cat">Languages</div><div class="skill-items">Python · SQL · C</div></div>
+      <div class="skill-card"><div class="skill-cat">Machine Learning / AI</div><div class="skill-items">Scikit-learn · LangGraph · RAG · CLIP · BigQuery ML · TF-IDF · Logistic Regression · NLP</div></div>
+      <div class="skill-card"><div class="skill-cat">Big Data &amp; Cloud</div><div class="skill-items">GCP · Pub/Sub · Dataflow · Dataproc · BigQuery · Hadoop · HDFS</div></div>
+      <div class="skill-card"><div class="skill-cat">Visualisation &amp; BI</div><div class="skill-items">Tableau · Looker Studio · Matplotlib · Seaborn · Figma</div></div>
+      <div class="skill-card"><div class="skill-cat">Engineering &amp; Tools</div><div class="skill-items">Docker · Streamlit · pytest · Git · ETL · Jupyter · MS Office</div></div>
+      <div class="skill-card"><div class="skill-cat">Domains</div><div class="skill-items">Data Engineering · Predictive Analytics · AI Governance · Anomaly Detection · Compliance Automation</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="projects">
+  <div class="section-inner">
+    <div class="reveal"><div class="section-label">02 — Work</div><h2 class="section-title">Selected <span>projects</span></h2></div>
+    <div class="filter-bar reveal">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="ML">ML / AI</button>
+      <button class="filter-btn" data-filter="Cloud">Cloud</button>
+      <button class="filter-btn" data-filter="Viz">Visualisation</button>
+      <button class="filter-btn" data-filter="Python">Python</button>
+    </div>
+    <div class="projects-grid" id="projectsList">
+
+      <div class="proj-card reveal" data-cats="ML Python">
+        <div class="proj-card-top"><span class="proj-index">01</span><a href="https://github.com/shrey-shetty" target="_blank" class="proj-gh-link" title="View on GitHub" onclick="event.stopPropagation()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          View repo ↗
+        </a></div>
+        <div class="proj-name">AI Content Generator System</div>
+        <div class="proj-desc">Multi-agent RAG pipeline using LangGraph with CLIP-based image scoring and TF-IDF retrieval. Deployed via Docker + Streamlit across 3 model benchmarks.</div>
+        <div class="proj-tags"><span class="proj-tag" data-tag="ML">LangGraph</span><span class="proj-tag" data-tag="ML">RAG</span><span class="proj-tag" data-tag="ML">CLIP</span><span class="proj-tag" data-tag="Python">Docker</span><span class="proj-tag" data-tag="Python">Streamlit</span></div>
+        <div class="proj-detail"><div class="proj-detail-inner"><div class="proj-detail-label">What makes it interesting</div><div class="proj-detail-text">Combines LangGraph orchestration with multimodal retrieval — CLIP scores images alongside TF-IDF text retrieval, letting the system pick the best content format per query. Benchmarked across 3 model configs with a full Streamlit evaluation UI.</div></div></div>
+      </div>
+
+      <div class="proj-card reveal" data-cats="ML Python">
+        <div class="proj-card-top"><span class="proj-index">02</span><a href="https://github.com/shrey-shetty" target="_blank" class="proj-gh-link" title="View on GitHub" onclick="event.stopPropagation()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          View repo ↗
+        </a></div>
+        <div class="proj-name">Autonomous Compliance Sentinel</div>
+        <div class="proj-desc">EU AI Act governance platform with human-in-the-loop review, TF-IDF &amp; Logistic Regression risk classification, and 10+ pytest-validated governance edge cases.</div>
+        <div class="proj-tags"><span class="proj-tag" data-tag="Python">Python</span><span class="proj-tag" data-tag="ML">EU AI Act</span><span class="proj-tag" data-tag="Python">Streamlit</span><span class="proj-tag" data-tag="Python">pytest</span></div>
+        <div class="proj-detail"><div class="proj-detail-inner"><div class="proj-detail-label">What makes it interesting</div><div class="proj-detail-text">Automated compliance classification against EU AI Act risk tiers using lightweight NLP. Human-in-the-loop review gates high-risk decisions. 10+ pytest edge cases validate governance logic — production-grade from day one.</div></div></div>
+      </div>
+
+      <div class="proj-card reveal" data-cats="Cloud Viz">
+        <div class="proj-card-top"><span class="proj-index">03</span><a href="https://github.com/shrey-shetty" target="_blank" class="proj-gh-link" title="View on GitHub" onclick="event.stopPropagation()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          View repo ↗
+        </a></div>
+        <div class="proj-name">Real-Time Fuel Price Analytics</div>
+        <div class="proj-desc">GCP pipeline ingesting price updates every 5 minutes via Pub/Sub → Dataflow → BigQuery. BigQuery ML price prediction + Looker Studio BI dashboards.</div>
+        <div class="proj-tags"><span class="proj-tag" data-tag="Cloud">GCP</span><span class="proj-tag" data-tag="Cloud">BigQuery</span><span class="proj-tag" data-tag="Cloud">Dataflow</span><span class="proj-tag" data-tag="Viz">Looker Studio</span></div>
+        <div class="proj-detail"><div class="proj-detail-inner"><div class="proj-detail-label">What makes it interesting</div><div class="proj-detail-text">End-to-end streaming on GCP: Pub/Sub ingestion every 5 minutes, Dataflow transformation, BigQuery storage and BigQuery ML forecasting — all in live Looker Studio dashboards accessible to non-technical stakeholders.</div></div></div>
+      </div>
+
+      <div class="proj-card reveal" data-cats="ML Python">
+        <div class="proj-card-top"><span class="proj-index">04</span><a href="https://github.com/shrey-shetty" target="_blank" class="proj-gh-link" title="View on GitHub" onclick="event.stopPropagation()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          View repo ↗
+        </a></div>
+        <div class="proj-name">Credit Risk Prediction &amp; Segmentation</div>
+        <div class="proj-desc">Logistic Regression + Random Forest classifier on real-world financial data. EDA, feature engineering, and segment insights for credit decision-making.</div>
+        <div class="proj-tags"><span class="proj-tag" data-tag="ML">Scikit-learn</span><span class="proj-tag" data-tag="Python">Python</span><span class="proj-tag" data-tag="ML">EDA</span><span class="proj-tag" data-tag="ML">ML</span></div>
+        <div class="proj-detail"><div class="proj-detail-inner"><div class="proj-detail-label">What makes it interesting</div><div class="proj-detail-text">Dual-model approach: Logistic Regression (interpretable, audit-friendly) vs Random Forest (higher accuracy) — both matter in finance where explainability is as important as performance.</div></div></div>
+      </div>
+
+      <div class="proj-card reveal" data-cats="Viz">
+        <div class="proj-card-top"><span class="proj-index">05</span><a href="https://github.com/shrey-shetty" target="_blank" class="proj-gh-link" title="View on GitHub" onclick="event.stopPropagation()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          View repo ↗
+        </a></div>
+        <div class="proj-name">Supply Chain Analytics Dashboard</div>
+        <div class="proj-desc">Interactive Tableau dashboard for dairy industry supply chain with parameter-driven expiry vs. overstock risk segmentation and KPI trend analysis.</div>
+        <div class="proj-tags"><span class="proj-tag" data-tag="Viz">Tableau</span><span class="proj-tag" data-tag="Viz">Supply Chain</span><span class="proj-tag" data-tag="Viz">KPI</span></div>
+        <div class="proj-detail"><div class="proj-detail-inner"><div class="proj-detail-label">What makes it interesting</div><div class="proj-detail-text">Parameter-driven risk segmentation lets stakeholders dial expiry vs. overstock sensitivity in real time. KPI trends surface directly without needing analyst interpretation.</div></div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="experience">
+  <div class="section-inner">
+    <div class="reveal"><div class="section-label">03 — Background</div><h2 class="section-title">Experience &amp; <span>education</span></h2></div>
+    <div class="timeline reveal">
+      <div class="timeline-item">
+        <div class="timeline-dot dot-work"></div>
+        <div><div class="tl-type tl-type-work">Work Experience</div><div class="tl-header"><span class="tl-role">Data Science Analyst Intern</span><span class="tl-date">2025</span></div><div class="tl-org">Alghanim Industries</div><div class="tl-loc">Kuwait</div><div class="tl-body">Built 3+ Tableau and SQL Server dashboards for sales and warranty analysis across 5 product lines, reducing manual reporting time by ~30%. Deployed live dashboards for senior stakeholders.</div></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot dot-edu"></div>
+        <div><div class="tl-type tl-type-edu">Education</div><div class="tl-header"><span class="tl-role">M.Sc. Applied Data Science &amp; Analytics</span><span class="tl-date">Apr 2025 – Present</span></div><div class="tl-org">SRH University</div><div class="tl-loc">Heidelberg, Germany</div><div class="tl-body">Data Engineering · Data Management · Big Data Programming · Data Visualisation &amp; Storytelling</div></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot dot-work"></div>
+        <div><div class="tl-type tl-type-work">Work Experience</div><div class="tl-header"><span class="tl-role">Machine Learning Intern</span><span class="tl-date">Feb – Mar 2023</span></div><div class="tl-org">Technologics</div><div class="tl-loc">Bangalore, India</div><div class="tl-body">Built a Spam Email Classifier achieving 95%+ accuracy. Designed test cases, implemented modifications, and collaborated on industrial ML workflows.</div></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot dot-edu"></div>
+        <div><div class="tl-type tl-type-edu">Education</div><div class="tl-header"><span class="tl-role">B.E. Computer Science Engineering</span><span class="tl-date">2019 – 2023</span></div><div class="tl-org">Visvesvaraya Technological University</div><div class="tl-loc">Mysore, India</div><div class="tl-body">Published peer-reviewed research on Android malware detection using stacking ensemble methods (IARJSET, May 2023, Vol. 10, Issue 5).</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="certifications">
+  <div class="section-inner">
+    <div class="reveal"><div class="section-label">04 — Credentials</div><h2 class="section-title">Certifi<span>cations</span></h2></div>
+    <div class="certs-grid reveal">
+      <div class="cert-card"><div class="cert-issuer">NVIDIA</div><div class="cert-name">Building LLM Applications With Prompt Engineering</div><div class="cert-date">November 2025</div></div>
+      <div class="cert-card"><div class="cert-issuer">Deloitte · Forage</div><div class="cert-name">Data Analytics Job Simulation</div><div class="cert-date">May 2026</div></div>
+      <div class="cert-card"><div class="cert-issuer">AWS</div><div class="cert-name">AWS Certified Cloud Practitioner</div><div class="cert-date">In progress</div></div>
+      <div class="cert-card"><div class="cert-issuer">IBM</div><div class="cert-name">SkillsBuild Workshop</div><div class="cert-date"></div></div>
+      <div class="cert-card"><div class="cert-issuer">SAS</div><div class="cert-name">SAS Visual Analytics</div><div class="cert-date"></div></div>
+      <div class="cert-card"><div class="cert-issuer">Infosys</div><div class="cert-name">Introduction to Python</div><div class="cert-date"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="publication">
+  <div class="section-inner">
+    <div class="reveal"><div class="section-label">05 — Research</div><h2 class="section-title">Published <span>work</span></h2></div>
+    <div class="pub-card reveal">
+      <div>
+        <div class="pub-label">Peer-reviewed · IARJSET</div>
+        <div class="pub-title">An Enhanced Stacking Ensemble Framework for Malware Detection in Android</div>
+        <div class="pub-body">Applied permission-based and semantic analysis methods to detect Android malware using a stacking ensemble model, improving detection accuracy over single-classifier baselines. Co-authored with Pragathi B, Aishwarya K, Pavana S, and Parvathi S J.</div>
+      </div>
+      <div class="pub-meta">
+        <div class="pub-journal">IARJSET</div>
+        <div class="pub-year">May 2023</div>
+        <div class="pub-year">Vol. 10, Issue 5</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="section-inner">
+    <div class="reveal"><div class="section-label">06 — Contact</div><h2 class="section-title">Let's work <span>together</span></h2></div>
+    <div class="contact-wrap reveal">
+      <div>
+        <div class="contact-tagline">Open to roles <em>all across Germany</em> — and beyond.</div>
+        <div class="contact-sub">Looking for opportunities in data science, ML engineering, and analytics. Available for internships, working-student roles, and full-time positions. Fluent in English and conversational in German.</div>
+        <div class="contact-actions">
+          <a href="mailto:shrey.sshetty@gmail.com" class="btn-primary">Send an email</a>
+          <a href="https://linkedin.com/in/shrey-shetty" target="_blank" class="btn-secondary">LinkedIn ↗</a>
+        </div>
+      </div>
+      <div class="contact-items">
+        <div class="contact-item"><span class="contact-icon">✉️</span><div><div class="contact-lbl">Email</div><div class="contact-val"><a href="mailto:shrey.sshetty@gmail.com">shrey.sshetty@gmail.com</a></div></div></div>
+        <div class="contact-item"><span class="contact-icon">📞</span><div><div class="contact-lbl">Phone</div><div class="contact-val">+49 155 6379 3632</div></div></div>
+        <div class="contact-item"><span class="contact-icon">💼</span><div><div class="contact-lbl">LinkedIn</div><div class="contact-val"><a href="https://linkedin.com/in/shrey-shetty" target="_blank">linkedin.com/in/shrey-shetty</a></div></div></div>
+        <div class="contact-item"><span class="contact-icon">🐙</span><div><div class="contact-lbl">GitHub</div><div class="contact-val"><a href="https://github.com/shrey-shetty" target="_blank">github.com/shrey-shetty</a></div></div></div>
+        <div class="contact-item"><span class="contact-icon">📍</span><div><div class="contact-lbl">Location</div><div class="contact-val">Heidelberg, Germany</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer>
+  <p>© 2026 Shreya Shetty · Data Scientist</p>
+  <div style="display:flex;gap:1.2rem;align-items:center;">
+    <a href="https://github.com/shrey-shetty" target="_blank" style="font-size:0.72rem;color:var(--muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">GitHub</a>
+    <a href="https://linkedin.com/in/shrey-shetty" target="_blank" style="font-size:0.72rem;color:var(--muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">LinkedIn</a>
+    <a href="mailto:shrey.sshetty@gmail.com" style="font-size:0.72rem;color:var(--muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">Email</a>
+  </div>
+</footer>
+
+<script>
+// ── typing animation ───────────────────────────────────────────────────────
+const phrases = [
+  'Building ML pipelines that scale ✦',
+  'Turning messy data into decisions ✦',
+  'AI governance & compliance ✦',
+  'Real-time analytics on GCP ✦',
+  'Tableau · Python · LangGraph ✦',
+];
+let pi = 0, ci = 0, deleting = false;
+const typedEl = document.getElementById('typed');
+function typeLoop() {
+  const phrase = phrases[pi];
+  if (!deleting) {
+    typedEl.textContent = phrase.slice(0, ++ci);
+    if (ci === phrase.length) { deleting = true; setTimeout(typeLoop, 1800); return; }
+  } else {
+    typedEl.textContent = phrase.slice(0, --ci);
+    if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; setTimeout(typeLoop, 400); return; }
+  }
+  setTimeout(typeLoop, deleting ? 35 : 55);
+}
+setTimeout(typeLoop, 1200);
+
+
+const canvas = document.getElementById('dots');
+const ctx = canvas.getContext('2d');
+let W, H, dots = [];
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = document.body.scrollHeight;
+}
+function makeDot() {
+  const big = Math.random() < 0.12;
+  return {
+    x: Math.random() * W,
+    y: Math.random() * H,
+    r: big ? Math.random() * 2.2 + 1.4 : Math.random() * 1.1 + 0.25,
+    baseAlpha: big ? Math.random() * 0.5 + 0.2 : Math.random() * 0.45 + 0.08,
+    phase: Math.random() * Math.PI * 2,
+    speed: Math.random() * 0.003 + 0.001,
+  };
+}
+function initDots(n) { dots = Array.from({length: n}, makeDot); }
+function drawDots(t) {
+  ctx.clearRect(0, 0, W, H);
+  for (const d of dots) {
+    const a = d.baseAlpha * (0.55 + 0.45 * Math.sin(t * d.speed * 250 + d.phase));
+    ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${a})`; ctx.fill();
+  }
+}
+resize(); initDots(350);
+requestAnimationFrame(function tick(t) { drawDots(t / 1000); requestAnimationFrame(tick); });
+window.addEventListener('resize', () => { resize(); initDots(350); });
+window.addEventListener('scroll', () => { const sh = document.body.scrollHeight; if (sh !== H) { H = canvas.height = sh; } });
+
+const io = new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+const navLinks = document.querySelectorAll('.nav-links a');
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-120)cur=s.id;});
+  navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
+});
+navLinks.forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.getElementById(a.getAttribute('href').slice(1))?.scrollIntoView({behavior:'smooth'});}));
+
+document.querySelectorAll('.proj-card').forEach(card=>{
+  card.addEventListener('click',e=>{
+    if(e.target.classList.contains('proj-tag'))return;
+    const isOpen=card.classList.contains('open');
+    document.querySelectorAll('.proj-card.open').forEach(c=>c.classList.remove('open'));
+    if(!isOpen)card.classList.add('open');
+  });
+});
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+    document.querySelectorAll('.proj-card').forEach(card=>{
+      card.classList.toggle('filtered-out',f!=='all'&&!(card.dataset.cats||'').includes(f));
+      card.classList.remove('open');
+    });
+  });
+});
+document.querySelectorAll('.proj-tag').forEach(tag=>{
+  tag.addEventListener('click',e=>{
+    e.stopPropagation();
+    const t=tag.dataset.tag; if(!t)return;
+    const btn=[...document.querySelectorAll('.filter-btn')].find(b=>b.dataset.filter===t);
+    if(btn)btn.click();
+    document.getElementById('projects').scrollIntoView({behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>
